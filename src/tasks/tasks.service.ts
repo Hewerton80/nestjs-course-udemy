@@ -6,6 +6,7 @@ import { TaskRepository } from './task.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './task.entity';
 import { TaskStatus } from './task.status.enum';
+import { JwtPayload } from 'src/auth/interface/jwt-payload.interface';
 
 @Injectable()
 export class TasksService {
@@ -14,15 +15,15 @@ export class TasksService {
         private taskRepository: TaskRepository
     ){}
 
-    getTasks(tasksFilterDto: GetTaskFilterDto): Promise<Task[]>{
-        return this.taskRepository.getTasks(tasksFilterDto);
+    getMyTasks(tasksFilterDto: GetTaskFilterDto, user: JwtPayload): Promise<Task[]>{
+        return this.taskRepository.getMyTasks(tasksFilterDto, user);
     }
 
     // getAllTasks(): Task[]{
     //     return this.tasks;
     // }
 
-    // getTasks(tasksFilterDto: GetTaskFilterDto): Task[]{
+    // getMyTasks(tasksFilterDto: GetTaskFilterDto): Task[]{
     //     const {search, status} = tasksFilterDto;
     //     let tasks = this.getAllTasks();
     //     if(status){
@@ -37,8 +38,13 @@ export class TasksService {
     //     return tasks;
     // }
 
-    async getTaskById(id: string): Promise<Task>{
-        const found = await this.taskRepository.findOne(id);
+    async getTaskById(id: string, user: JwtPayload): Promise<Task>{
+        const found = await this.taskRepository.findOne({
+            where:{
+                id: id,
+                user_id: user.id
+            }
+        });
         if(!found){
             throw new NotFoundException(`Nenhuma terefa foi encontrada com o id: ${id}`);
         }
@@ -54,8 +60,10 @@ export class TasksService {
 
     // }
 
-    async createTask(createTaskDto: CreateTaskDto): Promise<Task>{
-        return this.taskRepository.createTask(createTaskDto);
+    async createTask(createTaskDto: CreateTaskDto, user: JwtPayload): Promise<Task>{
+
+        return this.taskRepository.createTask(createTaskDto, user);
+
     }
     // createTask(createTaskDto: CreateTaskDto): Task{
     //     const { title, description } = createTaskDto
@@ -69,8 +77,8 @@ export class TasksService {
     //     return task;
     // }
 
-    async updateTaskStatus(id: string, status: TaskStatus): Promise<Task>{
-        const task = await this.getTaskById(id);
+    async updateTaskStatus(id: string, status: TaskStatus, user: JwtPayload): Promise<Task>{
+        const task = await this.getTaskById(id, user);
         task.status = status;
         await task.save();
         return task;

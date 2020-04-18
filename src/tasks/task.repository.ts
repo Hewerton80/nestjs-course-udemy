@@ -2,13 +2,18 @@ import { Task } from "./task.entity";
 import { EntityRepository, Repository } from "typeorm";
 import { CreateTaskDto } from "./dto/create-task.dto";
 import { GetTaskFilterDto } from "./dto/get-tasks-filter.dto";
+import { JwtPayload } from "src/auth/interface/jwt-payload.interface";
 
 @EntityRepository(Task)
 export class TaskRepository extends Repository<Task>{
 
-    async getTasks(tasksFilterDto: GetTaskFilterDto): Promise<Task[]>{
+    async getMyTasks(tasksFilterDto: GetTaskFilterDto, user: JwtPayload): Promise<Task[]>{
         const {status, search} = tasksFilterDto;
         const query = this.createQueryBuilder('task');
+        query
+            .leftJoinAndMapMany('task.user','task.user','user')
+            .andWhere('user.id = :userId', {userId: user.id})
+            .select(['task.id','task.title','task.description','task.status','user.id','user.username'])
         if(status){
             query.andWhere('task.status = :status', { status })
         }
@@ -19,9 +24,10 @@ export class TaskRepository extends Repository<Task>{
         return tasks;
 
     }
-    async createTask(createTaskDto: CreateTaskDto): Promise<Task>{
+    async createTask(createTaskDto: CreateTaskDto, user: JwtPayload): Promise<Task>{
         const { title, description } = createTaskDto;
         const task = new Task();
+        task.user_id = user.id;
         task.title = title;
         task.description = description;
         await task.save();

@@ -21,14 +21,15 @@ export class AuthController {
         return this.authService.singIn(authCredentialsDto);
     }
 
-    @Post('/teste')
-    @UseGuards(AuthGuard())
-    // caso eu queira usar a estratégia passport-local: @UseGuards(AuthGuard('local'))
-    // caso eu queira usar a estratégia jwt: @UseGuards(AuthGuard('jwt'))
-    // como está setado em auth.module o default 'jwt', posso omitir o 'jwt'
-    teste(@GetUser() user: User){
-        console.log(user);
-    }
+    // @Post('/teste')
+    // @UseGuards(AuthGuard())
+    // // caso eu queira usar a estratégia passport-local: @UseGuards(AuthGuard('local'))
+    // // caso eu queira usar a estratégia jwt: @UseGuards(AuthGuard('jwt'))
+    // // como está setado em auth.module o default 'jwt', posso omitir o 'jwt'
+    // teste(@GetUser() user: JwtPayload){
+    //     console.log(user);
+    // }
+    
 }
 
 
