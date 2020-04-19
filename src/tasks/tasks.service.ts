@@ -90,8 +90,8 @@ export class TasksService {
     //     return task;
     // }
 
-    async deleteTaskById(id: string): Promise<void>{
-        const { affected } = await this.taskRepository.delete(id);
+    async deleteTaskById(id: string, user: JwtPayload): Promise<void>{
+        const { affected } = await this.taskRepository.delete({ id, user_id: user.id });
         console.log(affected);
         if(affected === 0){
             throw new NotFoundException(`Nenhuma terefa foi encontrada com o id: ${id}`);

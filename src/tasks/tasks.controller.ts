@@ -52,7 +52,10 @@ export class TasksController {
     }
 
     @Delete('/:id')
-    deleteTask(@Param('id', ParseUUIDPipe) id: string): Promise<void>{
-        return this.tasksService.deleteTaskById(id);
+    deleteTask(
+        @Param('id', ParseUUIDPipe) id: string,
+        @GetUser() user: JwtPayload
+        ): Promise<void>{
+        return this.tasksService.deleteTaskById(id, user);
     }
 }

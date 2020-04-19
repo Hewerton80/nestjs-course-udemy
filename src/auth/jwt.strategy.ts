@@ -21,6 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(payload: JwtPayload): Promise<JwtPayload>{
+        //console.log('payload: ',payload);
         if(!payload){
             throw new UnauthorizedException('Falha na autenticação');
         }
