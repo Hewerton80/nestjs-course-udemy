@@ -2,7 +2,7 @@ import { Task } from "./task.entity";
 import { EntityRepository, Repository } from "typeorm";
 import { CreateTaskDto } from "./dto/create-task.dto";
 import { GetTaskFilterDto } from "./dto/get-tasks-filter.dto";
-import { JwtPayload } from "src/auth/interface/jwt-payload.interface";
+import { JwtPayload } from "../auth/interface/jwt-payload.interface";
 
 @EntityRepository(Task)
 export class TaskRepository extends Repository<Task>{

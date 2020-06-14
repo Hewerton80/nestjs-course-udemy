@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 //import { v1 } from 'uuid'
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTaskFilterDto } from './dto/get-tasks-filter.dto';
@@ -6,7 +6,7 @@ import { TaskRepository } from './task.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './task.entity';
 import { TaskStatus } from './task.status.enum';
-import { JwtPayload } from 'src/auth/interface/jwt-payload.interface';
+import { JwtPayload } from 'src/modules/auth/interface/jwt-payload.interface';
 
 @Injectable()
 export class TasksService {

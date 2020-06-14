@@ -8,11 +8,11 @@ export const typeormConfig: TypeOrmModuleOptions = {
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     entities: [__dirname + '/../**/*.entity.{js,ts}'],
-    synchronize: true,
+    synchronize: false,
 }
 /*
-dotenv->
 
+dotenv->
 DB_HOST=
 DB_USER=
 DB_PASS=

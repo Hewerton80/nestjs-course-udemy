@@ -6,8 +6,8 @@ import { TaskStatusValidationPipe } from './dto/pipes/task-status-validation.pip
 import { Task } from './task.entity';
 import { TaskStatus } from './task.status.enum';
 import { AuthGuard } from '@nestjs/passport';
-import { GetUser } from 'src/auth/decorator/get-user.decorator';
-import { JwtPayload } from 'src/auth/interface/jwt-payload.interface';
+import { GetUser } from 'src/modules/auth/decorator/get-user.decorator';
+import { JwtPayload } from 'src/modules/auth/interface/jwt-payload.interface';
 @Controller('tasks')
 @UseGuards(AuthGuard())
 // caso eu queira usar a estratégia passport-local: @UseGuards(AuthGuard('local'))

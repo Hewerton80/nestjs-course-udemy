@@ -1,5 +1,5 @@
 import { ArgumentMetadata, Injectable, PipeTransform, BadRequestException } from '@nestjs/common';
-import { TaskStatus } from 'src/tasks/task.status.enum';
+import { TaskStatus } from 'src/modules/tasks/task.status.enum';
 
 @Injectable()
 export class TaskStatusValidationPipe implements PipeTransform {

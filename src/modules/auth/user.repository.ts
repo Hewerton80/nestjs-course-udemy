@@ -17,6 +17,7 @@ export class UserRepository extends Repository<User>{
             await user.save();
         }
         catch(err){
+            console.log(err);
             if(err.code === '23505'){ // duplicate username
                 //console.log( Object.getOwnPropertyDescriptors(err))
                 throw new ConflictException("Já existe um usuário cadastrado com esse username");
